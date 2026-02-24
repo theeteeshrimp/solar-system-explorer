@@ -1,7 +1,20 @@
-// Main JavaScript for Solar System Explorer
+// Solar System Explorer - Main JavaScript
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Animate planet cards on scroll
+document.addEventListener('DOMContentLoaded', () => {
+    // Add hover effects to planet cards
+    const planetCards = document.querySelectorAll('.planet-card');
+    
+    planetCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Animate stats on scroll
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -16,91 +29,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe all planet cards
-    const planetCards = document.querySelectorAll('.planet-card');
-    planetCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
-        observer.observe(card);
+    // Observe elements
+    document.querySelectorAll('.planet-card, .fact-card, .stat-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
     });
 
-    // Animate stat cards
-    const statCards = document.querySelectorAll('.stat-card');
-    statCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'scale(0.9)';
-        card.style.transition = `opacity 0.4s ease ${index * 0.1}s, transform 0.4s ease ${index * 0.1}s`;
-        
-        setTimeout(() => {
-            const cardObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'scale(1)';
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            cardObserver.observe(card);
-        }, 100);
-    });
-
-    // Parallax effect for stars
-    let ticking = false;
-    window.addEventListener('scroll', function() {
-        if (!ticking) {
-            window.requestAnimationFrame(function() {
-                const scrolled = window.pageYOffset;
-                const stars = document.querySelector('.stars');
-                if (stars) {
-                    stars.style.transform = `translateY(${scrolled * 0.5}px)`;
-                }
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-
-    // Add hover sound effect simulation (console log for now)
-    const interactiveElements = document.querySelectorAll('a, button');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            // Could add actual sound here
-            console.log('Hover effect triggered');
-        });
-    });
-
-    // Animate chart bars
-    const chartBars = document.querySelectorAll('.chart-bar');
-    chartBars.forEach(bar => {
-        const width = bar.style.width;
-        bar.style.width = '0';
-        
-        const barObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.style.width = width;
-                    }, 200);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        barObserver.observe(bar);
-    });
-});
-
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
+    // Add random twinkling to stars
+    const stars = document.querySelector('.stars');
+    if (stars) {
+        setInterval(() => {
+            stars.style.opacity = 0.5 + Math.random() * 0.5;
+        }, 3000);
+    }
 });

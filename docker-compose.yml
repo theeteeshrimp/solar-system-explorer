@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  app:
+  solar-system:
     build: .
     container_name: solar-system-explorer
     ports:
       - "5000:5000"
+    restart: unless-stopped
     environment:
       - FLASK_ENV=production
-    restart: unless-stopped

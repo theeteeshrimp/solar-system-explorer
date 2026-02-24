@@ -10,84 +10,115 @@
 <body>
     <div class="stars"></div>
     
-    <nav class="breadcrumb">
-        <a href="{{ url_for('index') }}">← Back to Solar System</a>
-    </nav>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/">
+                    <span class="logo-icon">🚀</span>
+                    <span>Solar System Explorer</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/compare">Compare</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <main class="planet-detail">
-        <header class="planet-header" style="--planet-color: {{ planet.color }}">
-            <div class="planet-icon">{{ planet.emoji }}</div>
-            <h1>{{ planet.name }}</h1>
-            <p class="planet-tagline">{{ planet.description }}</p>
-        </header>
+        <!-- Planet Hero -->
+        <section class="planet-hero" style="--planet-color: {{ planet.color }}">
+            <div class="planet-display">
+                <div class="planet-glow"></div>
+                <div class="planet-emoji">{{ planet.emoji }}</div>
+            </div>
+            <div class="planet-info">
+                <h1>{{ planet.name }}</h1>
+                <p class="planet-number">Planet #{{ planet.order }}</p>
+                <p class="planet-desc">{{ planet.description }}</p>
+            </div>
+        </section>
 
-        <div class="planet-content">
-            <!-- Stats Grid -->
-            <section class="stats-section">
-                <h2>📊 Quick Facts</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-icon">☀️</span>
+        <!-- Stats Grid -->
+        <section class="stats-section">
+            <h2>📊 Planet Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">☀️</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Distance from Sun</span>
                         <span class="stat-value">{{ planet.distance_from_sun }}</span>
-                        <span class="stat-label">From Sun</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-icon">📏</span>
-                        <span class="stat-value">{{ planet.diameter }}</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📏</div>
+                    <div class="stat-content">
                         <span class="stat-label">Diameter</span>
+                        <span class="stat-value">{{ planet.diameter }}</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-icon">🕐</span>
-                        <span class="stat-value">{{ planet.day_length }}</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌅</div>
+                    <div class="stat-content">
                         <span class="stat-label">Day Length</span>
+                        <span class="stat-value">{{ planet.day_length }}</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-icon">📅</span>
-                        <span class="stat-value">{{ planet.year_length }}</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
                         <span class="stat-label">Year Length</span>
+                        <span class="stat-value">{{ planet.year_length }}</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-icon">🌙</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌙</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Moons</span>
                         <span class="stat-value">{{ planet.moons }}</span>
-                        <span class="stat-label">Moon{% if planet.moons != 1 %}s{% endif %}</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-icon">🌡️</span>
-                        <span class="stat-value">{{ planet.temperature }}</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌡️</div>
+                    <div class="stat-content">
                         <span class="stat-label">Temperature</span>
+                        <span class="stat-value">{{ planet.temperature }}</span>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Fun Facts -->
-            <section class="facts-section">
-                <h2>🌟 Did You Know?</h2>
-                <ul class="facts-list">
-                    {% for fact in planet.facts %}
-                    <li>{{ fact }}</li>
-                    {% endfor %}
-                </ul>
-            </section>
+        <!-- Fun Facts -->
+        <section class="facts-section">
+            <h2>🎯 Fun Facts about {{ planet.name }}</h2>
+            <ul class="facts-list">
+                {% for fact in planet.facts %}
+                <li class="fact-item">
+                    <span class="fact-bullet">⭐</span>
+                    <span>{{ fact }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
 
-            <!-- Navigation to other planets -->
-            <section class="other-planets">
-                <h2>🚀 Explore More</h2>
-                <div class="planet-nav">
-                    {% for key, p in all_planets.items() %}
-                    {% if p.name != planet.name %}
-                    <a href="{{ url_for('planet_detail', name=key) }}" class="nav-planet" style="--planet-color: {{ p.color }}">
-                        <span>{{ p.emoji }}</span>
-                        <span>{{ p.name }}</span>
-                    </a>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </section>
-        </div>
+        <!-- Navigation to other planets -->
+        <section class="other-planets">
+            <h2>🚀 Explore Other Planets</h2>
+            <div class="planet-nav">
+                {% for key, p in all_planets.items() %}
+                {% if p.name != planet.name %}
+                <a href="/planet/{{ key }}" class="nav-planet" style="--planet-color: {{ p.color }}">
+                    <span class="nav-planet-emoji">{{ p.emoji }}</span>
+                    <span class="nav-planet-name">{{ p.name }}</span>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </section>
     </main>
 
     <footer>
-        <p>Made with 💫 by Kimi-Claw 🦐 | Data based on NASA information</p>
+        <p>🚀 Solar System Explorer | Made with 💕 by Kimi-Claw 🦐</p>
     </footer>
 </body>
 </html>
