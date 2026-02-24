@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Planets - Solar System Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <nav class="breadcrumb">
+        <a href="{{ url_for('index') }}">← Back to Solar System</a>
+    </nav>
+
+    <main>
+        <header class="page-header">
+            <h1>📊 Planet Comparison</h1>
+            <p>See how the planets stack up against each other</p>
+        </header>
+
+        <!-- Distance from Sun Chart -->
+        <section class="comparison-section">
+            <h2>☀️ Distance from Sun</h2>
+            <div class="chart">
+                {% for key, planet in planets.items() %}
+                <div class="chart-row">
+                    <span class="chart-label">{{ planet.emoji }} {{ planet.name }}</span>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="width: {{ (loop.index / 8) * 100 }}%; background: {{ planet.color }}"></div>
+                    </div>
+                    <span class="chart-value">{{ planet.distance_from_sun }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Diameter Comparison -->
+        <section class="comparison-section">
+            <h2>📏 Relative Size (Diameter)</h2>
+            <div class="size-comparison">
+                {% for key, planet in planets.items() %}
+                <div class="size-item">
+                    <div class="size-circle" style="--size: {{ planet.diameter | replace(',', '') | replace(' km', '') | int // 2000 }}px; background: {{ planet.color }}"></div>
+                    <span class="size-name">{{ planet.emoji }} {{ planet.name }}</span>
+                    <span class="size-value">{{ planet.diameter }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Moons Comparison -->
+        <section class="comparison-section">
+            <h2>🌙 Number of Moons</h2>
+            <div class="moons-grid">
+                {% for key, planet in planets.items() | sort(attribute='1.moons', reverse=true) %}
+                <div class="moon-card">
+                    <span class="moon-emoji">{{ planet.emoji }}</span>
+                    <span class="moon-count">{{ planet.moons }}</span>
+                    <span class="moon-name">{{ planet.name }}</span>
+                    <span class="moon-label">moon{% if planet.moons != 1 %}s{% endif %}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Temperature Comparison -->
+        <section class="comparison-section">
+            <h2>🌡️ Temperature Ranges</h2>
+            <div class="temp-table">
+                <div class="temp-header">
+                    <span>Planet</span>
+                    <span>Temperature</span>
+                </div>
+                {% for key, planet in planets.items() %}
+                <div class="temp-row">
+                    <span>{{ planet.emoji }} {{ planet.name }}</span>
+                    <span class="temp-value">{{ planet.temperature }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Made with 💫 by Kimi-Claw 🦐 | Data based on NASA information</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Solar System Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <header>
+        <h1>🚀 Solar System Explorer</h1>
+        <p class="subtitle">Journey through our cosmic neighborhood</p>
+    </header>
+
+    <main>
+        <!-- Sun Section -->
+        <section class="sun-section">
+            <div class="sun-card">
+                <div class="sun-visual">☀️</div>
+                <div class="sun-info">
+                    <h2>{{ sun.name }}</h2>
+                    <p class="sun-type">{{ sun.type }}</p>
+                    <p>{{ sun.description }}</p>
+                    <div class="sun-stats">
+                        <div class="stat">
+                            <span class="stat-value">{{ sun.diameter }}</span>
+                            <span class="stat-label">Diameter</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">{{ sun.surface_temperature }}</span>
+                            <span class="stat-label">Surface Temp</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">{{ sun.age }}</span>
+                            <span class="stat-label">Age</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planets Grid -->
+        <section class="planets-section">
+            <h2>🪐 The Planets</h2>
+            <div class="planets-grid">
+                {% for key, planet in planets.items() %}
+                <a href="{{ url_for('planet_detail', name=key) }}" class="planet-card" style="--planet-color: {{ planet.color }}">
+                    <div class="planet-emoji">{{ planet.emoji }}</div>
+                    <h3>{{ planet.name }}</h3>
+                    <p class="planet-order">Planet #{{ planet.order }}</p>
+                    <div class="planet-quick-stats">
+                        <span>🌡️ {{ planet.temperature }}</span>
+                        <span>🌙 {{ planet.moons }} moon{% if planet.moons != 1 %}s{% endif %}</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Quick Compare -->
+        <section class="compare-section">
+            <a href="{{ url_for('compare') }}" class="compare-btn">
+                📊 Compare Planets
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>Made with 💫 by Kimi-Claw 🦐 | Data based on NASA information</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

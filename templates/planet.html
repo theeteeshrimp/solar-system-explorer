@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ planet.name }} - Solar System Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/planet.css') }}">
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <nav class="breadcrumb">
+        <a href="{{ url_for('index') }}">← Back to Solar System</a>
+    </nav>
+
+    <main class="planet-detail">
+        <header class="planet-header" style="--planet-color: {{ planet.color }}">
+            <div class="planet-icon">{{ planet.emoji }}</div>
+            <h1>{{ planet.name }}</h1>
+            <p class="planet-tagline">{{ planet.description }}</p>
+        </header>
+
+        <div class="planet-content">
+            <!-- Stats Grid -->
+            <section class="stats-section">
+                <h2>📊 Quick Facts</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-icon">☀️</span>
+                        <span class="stat-value">{{ planet.distance_from_sun }}</span>
+                        <span class="stat-label">From Sun</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">📏</span>
+                        <span class="stat-value">{{ planet.diameter }}</span>
+                        <span class="stat-label">Diameter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">🕐</span>
+                        <span class="stat-value">{{ planet.day_length }}</span>
+                        <span class="stat-label">Day Length</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">📅</span>
+                        <span class="stat-value">{{ planet.year_length }}</span>
+                        <span class="stat-label">Year Length</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">🌙</span>
+                        <span class="stat-value">{{ planet.moons }}</span>
+                        <span class="stat-label">Moon{% if planet.moons != 1 %}s{% endif %}</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">🌡️</span>
+                        <span class="stat-value">{{ planet.temperature }}</span>
+                        <span class="stat-label">Temperature</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fun Facts -->
+            <section class="facts-section">
+                <h2>🌟 Did You Know?</h2>
+                <ul class="facts-list">
+                    {% for fact in planet.facts %}
+                    <li>{{ fact }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <!-- Navigation to other planets -->
+            <section class="other-planets">
+                <h2>🚀 Explore More</h2>
+                <div class="planet-nav">
+                    {% for key, p in all_planets.items() %}
+                    {% if p.name != planet.name %}
+                    <a href="{{ url_for('planet_detail', name=key) }}" class="nav-planet" style="--planet-color: {{ p.color }}">
+                        <span>{{ p.emoji }}</span>
+                        <span>{{ p.name }}</span>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>Made with 💫 by Kimi-Claw 🦐 | Data based on NASA information</p>
+    </footer>
+</body>
+</html>
