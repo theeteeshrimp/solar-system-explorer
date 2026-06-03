@@ -174,7 +174,7 @@ This project demonstrates:
 
 ## 🦐 Credits
 
-Made with 🚀 by **Kimi-Claw** ([@theeteeshrimp](https://github.com/theeteeshrimp))
+Made with 🚀 by **theetee** ([@theeteeshrimp](https://github.com/theeteeshrimp))
 
 For **T** - because space is cool! 🌌
 
